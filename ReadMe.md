@@ -26,7 +26,7 @@ Proje BDD tasarım kalıbına uygun bir şekilde oluşturulmaya çalışılmış
 
 <u><a href="https://github.com/zeynepdinc12/HepsiPAY/blob/master/src/test/java/steps">src\test\java\steps:</a></u> .feature uzantılı dosyaların implement edildiği konum
 <br>
-&nbsp;&nbsp;<a href="https://github.com/zeynepdinc12/HepsiPAY/blob/master/src/test/java/features/AnindaHavaleTest_Step.java">AnındaHavaleTest_Step</a>
+&nbsp;&nbsp;<a href="https://github.com/zeynepdinc12/HepsiPAY/blob/master/src/test/java/steps/AnindaHavaleTest_Step.java">AnındaHavaleTest_Step</a>
 <p>
 <u><a href="https://github.com/zeynepdinc12/HepsiPAY/blob/master/src/main/resources/config.properties"> src\main\resources\config.properties:</a></u> Projenin tarayıcı(driver) konumlarının, kullanıcı bilgilerinin tutulduğu konfigürasyon dosyası
 <br>
@@ -43,5 +43,5 @@ Proje BDD tasarım kalıbına uygun bir şekilde oluşturulmaya çalışılmış
 <u><a href="https://github.com/zeynepdinc12/HepsiPAY/tree/master/src/main/java/base">src\main\java\base:</a></u> Projenin temel komutlarının,fonksiyonlarının yazıldığı ve tutulduğu konum.
 <ul>
 <li><u><a href="https://github.com/zeynepdinc12/HepsiPAY/blob/master/src/main/java/base/Driver.java">Driver.java:</a></u> config.properties dosyasının okunduğu ve driverların çalıştırıldığı class</li> 
-<li><u>Functional.java:</u> temel fonksiyonların tutulduğu class</li> 
+<li><u><a href="https://github.com/zeynepdinc12/HepsiPAY/blob/master/src/main/java/base/Functional.java">Functional.java:</a></u> temel fonksiyonların tutulduğu class</li> 
 </ul>
