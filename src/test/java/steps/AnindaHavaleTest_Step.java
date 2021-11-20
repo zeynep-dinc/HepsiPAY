@@ -1,69 +1,81 @@
 package steps;
 
+import base.BaseTestFunctions;
+import base.BaseTestMethod;
+import com.github.javafaker.Faker;
+import hepsiPAY.AnindaHavale;
+import hepsiPAY.BankaAdlariListesi_Enum;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.plugin.event.Step;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public class AnindaHavaleTest_Step {
+public class AnindaHavaleTest_Step extends BaseTestMethod{
+
+    AnindaHavale anindaHavale=new AnindaHavale();
+    private Scenario scenario;
+    private String bankaAdi;
+    @Before
+    public void beforeStep(Scenario scenario){
+        super.beforeTest();
+        this.scenario = scenario;
+    }
 
     @Given("{string} adresine {string} ile giris yap")
     public void adresine_ile_giris_yap(String string, String string2) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        anindaHavale.assertWebTitle("Hepsiburada.com");
+        anindaHavale.girisYap();
     }
-    @And("{string} sayfasinda oldugunu dogrula")
-    public void sayfasinda_oldugunu_dogrula(String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    @Given("{string} sayfasinda oldugunu dogrula")
+    public void sayfasinda_oldugunu_dogrula(String baslik) {
+        anindaHavale.waitForPageLoad(10L);
+        anindaHavale.assertWebTitle(baslik);
     }
-    @Then("{string} kitabını sepete ekle")
-    public void kitabını_sepete_ekle(String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    @Then("kitabi sepete ekle")
+    public void kitabi_sepete_ekle() {
+        anindaHavale.kitapAdiylaAra();
+        anindaHavale.sepeteEkle();
     }
     @Then("sepete git")
     public void sepete_git() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        anindaHavale.sepeteGit();
     }
-    @Then("alisverisi tamamla")
-    public void alisverisi_tamamla() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    @Then("asamayi gec")
+    public void asamayi_gec() {
+        anindaHavale.asamaGec();
     }
     @Then("teslimat yontemi ekranini gec")
     public void teslimat_yontemi_ekranini_gec() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        anindaHavale.asamaGec();
     }
     @Then("{string} yontemini sec")
     public void yontemini_sec(String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        anindaHavale.yontemSec(string);
     }
     @Then("{string} sec")
-    public void sec(String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    public void sec(String banka) {
+        bankaAdi=banka;
+        anindaHavale.bankaSec(banka);
     }
     @Then("devam et butonuna tikla")
     public void devam_et_butonuna_tikla() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        anindaHavale.asamaGec();
     }
     @Then("odeme bilgilerinden {string} adini dogrula")
-    public void odeme_bilgilerinden_adini_dogrula(String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    public void odeme_bilgilerinden_adini_dogrula(String bankaAdi) {
+        anindaHavale.bankaAdiDogrula(bankaAdi);
     }
     @Then("sepeti bosalt")
     public void sepeti_bosalt() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        anindaHavale.sepetiBosalt();
     }
-    @Then("oturumu kapat")
+
+    @After
     public void oturumu_kapat() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        super.afterTest(scenario,bankaAdi);
     }
 }

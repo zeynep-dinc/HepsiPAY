@@ -40,12 +40,11 @@ public class Driver {
                     case "firefox":
                         System.setProperty(readToDriverProperties("keyForFirefox"), readToDriverProperties("firefoxdriver"));
                         driver = new FirefoxDriver();
+                        break;
                     default :
                             System.setProperty(readToDriverProperties("keyForChrome"), readToDriverProperties("chromedriver"));
                             driver = new ChromeDriver();
                 }
-                System.setProperty(readToDriverProperties("key"), readToDriverProperties("chromedriver"));
-                driver = new ChromeDriver();
                 logger.info("-------------Driver is starting-------------");
             }
         } catch (Exception ex) {
