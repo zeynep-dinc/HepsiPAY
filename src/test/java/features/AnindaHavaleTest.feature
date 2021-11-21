@@ -1,7 +1,7 @@
 Feature: AnindaHavaleTestStep
 
   Scenario Outline: AnindaHavaleTestStep
-    Given "hepsiburada.com" adresine "chromedriver" ile giris yap
+    Given "hepsiburada.com" adresine giris yap
     And "Türkiye'nin En Büyük Online Alışveriş Sitesi Hepsiburada.com" sayfasinda oldugunu dogrula
     Then kitabi sepete ekle
     Then sepete git

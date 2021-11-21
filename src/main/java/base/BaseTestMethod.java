@@ -27,7 +27,7 @@ public class BaseTestMethod {
     private WebDriver driver;
     @BeforeClass
     public void beforeTest() {
-        driver = Driver.getDriver("chromeDriver");
+        driver=Driver.getDriver();
         driver.manage().window().maximize();
         driver.navigate().to(url);
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(15));
@@ -41,7 +41,7 @@ public class BaseTestMethod {
                 LocalDateTime myDateObj = LocalDateTime.now();
                 System.out.println("Before formatting: " + myDateObj);
                 DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm_ss");
-                FileUtils.copyFile(scrFile, new File(System.getProperty("user.dir")+"/fail_scenario_screenshots/"+driver.getTitle().toLowerCase()+myDateObj.format(myFormatObj)+".png"), true);
+                FileUtils.copyFile(scrFile, new File(System.getProperty("user.dir")+"/fail_scenario_screenshots/"+driver.getTitle().toLowerCase().replaceAll(" ","_")+"_"+myDateObj.format(myFormatObj)+".png"), true);
             }
         } catch (IOException e) {
             e.printStackTrace();

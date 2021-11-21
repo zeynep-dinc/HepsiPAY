@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class BaseTestFunctions {
 
-    private final WebDriver driver = Driver.getDriver("chromeDriver");
+    private final WebDriver driver = Driver.getDriver();
     private final Logger log = LogManager.getLogger(BaseTestFunctions.class);
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     Actions actions=new Actions(driver);
@@ -89,7 +89,7 @@ public abstract class BaseTestFunctions {
 
     public void isDisplay(WebElement element) {
         try {
-            driver.manage().timeouts().wait();
+            driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
             if (element.isDisplayed()) {
                 log.info("The element(" + element + ") is displayed.");
                 System.out.println("The element(" + element + ") is displayed.");
@@ -135,7 +135,7 @@ public abstract class BaseTestFunctions {
             int number_of_tabs = tab_handles.size();
             int new_tab_index = number_of_tabs - 1;
             driver.close();
-            driver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
+            driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(5));
             driver.switchTo().window(tab_handles.toArray()[new_tab_index].toString());
             Thread.sleep(1000);
             System.out.println(driver.getTitle() + " current page title.");

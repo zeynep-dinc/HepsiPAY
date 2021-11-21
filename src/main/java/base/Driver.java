@@ -17,33 +17,34 @@ public class Driver {
     private static final Logger logger = LogManager.getLogger(Driver.class);
     private static WebDriver driver;
 
-    static Properties prop=new Properties();
+    static Properties prop = new Properties();
 
-    protected static String readToDriverProperties(String variable){
-        try(InputStream input = new FileInputStream("src/main/resources/config.properties")) {
+    protected static String readToDriverProperties(String variable) {
+        try (InputStream input = new FileInputStream("src/main/resources/config.properties")) {
             prop.load(input);
-            System.out.println(prop.getProperty("driver."+variable));
+            System.out.println(prop.getProperty("driver." + variable));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
 
-            return prop.getProperty("driver."+variable);
+            return prop.getProperty("driver." + variable);
         }
     }
 
-    public static WebDriver getDriver(String driverType) {
+    public static WebDriver getDriver() {
         try {
             if (driver == null) {
-                switch (driverType){
+                String driverType = readToDriverProperties("aktiveDriver");
+                switch (driverType) {
                     case "firefox":
                         System.setProperty(readToDriverProperties("keyForFirefox"), readToDriverProperties("firefoxdriver"));
                         driver = new FirefoxDriver();
                         break;
-                    default :
-                            System.setProperty(readToDriverProperties("keyForChrome"), readToDriverProperties("chromedriver"));
-                            driver = new ChromeDriver();
+                    default:
+                        System.setProperty(readToDriverProperties("keyForChrome"), readToDriverProperties("chromedriver"));
+                        driver = new ChromeDriver();
                 }
                 logger.info("-------------Driver is starting-------------");
             }
@@ -53,6 +54,7 @@ public class Driver {
         }
         return driver;
     }
+
 
     public static WebDriver closeDriver() {
         try {

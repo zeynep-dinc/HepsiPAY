@@ -2,55 +2,60 @@ package hepsiPAY;
 
 import base.BaseTestFunctions;
 import base.Driver;
-import com.aventstack.extentreports.gherkin.model.Scenario;
-import com.github.javafaker.Faker;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.io.File;
 import java.time.Duration;
-import java.util.Locale;
 import java.util.Random;
 
 public class AnindaHavale extends BaseTestFunctions {
     WebDriver driver;
     private String kitapAdi;
-    String []kitaplar={"Nutuk","Otostopcunun Galaksi Rehberi","Tek Adam","Cin Ali","Taht Oyunları Game of Thrones","The Hobbit and The Lord of the Rings","lalalalalalalala"};
+    String []kitaplar={"Nutuk","Otostopçunun Galaksi Rehberi (Ciltli) - Douglas Adams Kitabı","Tek Adam","Cin Ali","Taht Oyunları Game of Thrones","The Hobbit and The Lord of the Rings","lalalalalalalala"};
     Random random=new Random();
     int indis=random.nextInt(kitaplar.length);
     public AnindaHavale(){
-        driver= Driver.getDriver("chromeDriver");
+        driver= Driver.getDriver();
         PageFactory.initElements(driver,this);
         kitapAdi=kitaplar[indis];
     }
 
     @FindBy(xpath = "//div[@id='myAccount']")
-    private WebElement myAccount;
+    private WebElement myAccountButton;
 
     @FindBy(xpath = "//a[@id='login']")
-    private WebElement loginLink;
+    private WebElement loginButton;
 
     @FindBy(name = "username")
-    private WebElement username;
+    private WebElement usernameTextBox;
 
     @FindBy(name = "password")
-    private WebElement password;
+    private WebElement passwordTextBox;
 
     @FindBy(className = "desktopOldAutosuggestTheme-input")
-    private WebElement searchBox;
+    private WebElement searchTextBox;
 
     @FindBy(xpath = "//span[text()=' ile ilgili sonuç bulunamamıştır']")
-    private WebElement urunYoksa;
+    private WebElement urunYoksaTextElement;
 
     @FindBy(xpath = "//div/div/div/div/div/ul/li[1]/div/a/div[2]/div[1]")
-    private WebElement firstItem;
+    private WebElement firstItemIcon;
 
     @FindBy(xpath = "//button[@id='addToCart']")
     private WebElement addToCartButton;
 
     @FindBy(xpath = "//span[contains(text(),'Ürün sepetinizde')]")
-    private WebElement urunSepetinizde;
+    private WebElement urunSepetinizdeTextElement;
+
+    @FindBy(xpath = "//li[text()='Ürün sepete eklenemedi']")
+    private WebElement urunEklenemediTextElement;
+
+    @FindBy(className = "checkoutui-Modal-2iZXl")
+    private WebElement yuklenemediPopupKapatIcon;
 
     @FindBy(xpath = "//button[text()='Sepete git']")
     private WebElement popUpSepeteGitButton;
@@ -74,28 +79,28 @@ public class AnindaHavale extends BaseTestFunctions {
     private WebElement bankaAdiTextElement;
 
     public void girisYap(){
-        elementToBeClickable(myAccount);
+        elementToBeClickable(myAccountButton);
         waitFor(2);
-        elementToBeClickable(loginLink);
+        elementToBeClickable(loginButton);
         waitFor(2);
-        sendKeysFunction(username,"zeynepdinc.23@gmail.com");
+        sendKeysFunction(usernameTextBox,"zeynepdinc.23@gmail.com");
         actionSendKeys(Keys.ENTER);
         waitFor(2);
-        sendKeysFunction(password,"1r1B8kar");
+        sendKeysFunction(passwordTextBox,"1r1B8kar");
         actionSendKeys(Keys.ENTER);
         waitFor(2);
     }
 
     public void urunKontrol(){
         try {
-            if (urunYoksa.isDisplayed()) {
+            if (urunYoksaTextElement.isDisplayed()) {
                 //Burada neden bilmiyorum ama sendKeysFunction'daki clean çalışmadı bende kitap adı kadar backspace'e bastırdım.
-                elementToBeClickable(searchBox);
+                elementToBeClickable(searchTextBox);
                 for(int i=0;i<kitapAdi.length();i++){
                     actionSendKeys(Keys.BACK_SPACE);
                 }
                 kitapAdi="Cin Ali";
-                sendKeysFunction(searchBox, kitapAdi);
+                sendKeysFunction(searchTextBox, kitapAdi);
                 actionSendKeys(Keys.ENTER);
                 waitFor(2);
             }
@@ -108,34 +113,35 @@ public class AnindaHavale extends BaseTestFunctions {
         }
     }
     public void kitapAdiylaAra(){
-        sendKeysFunction(searchBox, kitapAdi);
+        sendKeysFunction(searchTextBox, kitapAdi);
         actionSendKeys(Keys.ENTER);
         waitFor(2);
         urunKontrol();
-        elementToBeClickable(firstItem);
+        elementToBeClickable(firstItemIcon);
         try {
             tabiDegistir();
             assertWebTitle(kitapAdi);
         } catch (InterruptedException e) {
             e.printStackTrace();
-//            File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-//            screenshot.mkdir();//Dosya konumu: C:\Users\zeyne\AppData\Local\Temp\
         }
     }
 
     public void sepeteEkle(){
         elementToBeClickable(addToCartButton);
         waitFor(5);
-       // isDisplay(urunSepetinizde);
     }
+
 
     public void sepeteEklendiPopupMi(){
         try {
-            if (popUpSepeteGitButton.isDisplayed()) {
+            if(popUpSepeteGitButton.isDisplayed()) {
+                System.out.println("PopUp açıldı. Sepete git butonuna tıklandı.");
                 elementToBeClickable(popUpSepeteGitButton);
-            } else {
-                actionSendKeys(Keys.ESCAPE);
-                elementToBeClickable(bannerSepeteGitButton);
+                actionSendKeys(Keys.F5);
+            } else if(urunEklenemediTextElement.isDisplayed()){
+                System.out.println("Sepete ekleme yapılamadı.");
+                elementToBeClickable(yuklenemediPopupKapatIcon);
+                actionSendKeys(Keys.F5);
             }
         }
         catch (Exception exception){
@@ -145,7 +151,8 @@ public class AnindaHavale extends BaseTestFunctions {
     public void sepeteGit(){
         waitFor(2);
         sepeteEklendiPopupMi();
-      //  elementToBeClickable(bannerSepeteGitButton);
+        actionSendKeys(Keys.ESCAPE);
+        elementToBeClickable(bannerSepeteGitButton);
     }
     public void asamaGec(){
         waitFor(2);
@@ -158,11 +165,12 @@ public class AnindaHavale extends BaseTestFunctions {
         waitFor(5);
         yontemAdiTextElement=driver.findElement(By.xpath("//h3[text()='"+yontemAdi+"']"));
         elementToBeClickable(yontemAdiTextElement);
-        waitFor(2);
+        waitFor(3);
     }
 
     public void bankaSec(String bankaAdi){
-        for(int i=0;i<8;i++){
+        //Bu for döngüsü 14 inç gibi küçük ekranlarda sığmama probleminin önüne geçilmek için yazılmıştır.
+        for(int i=0;i<7;i++){
             actionSendKeys(Keys.ARROW_DOWN);
         }
         bankaAdiTextElement=driver.findElement(By.xpath("(//p[@class='sardesPaymentPage-MoneyTransfer-bank_name'])[text()='"+bankaAdi+"']"));
