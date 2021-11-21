@@ -1,6 +1,8 @@
 Feature: AnindaHavaleTestStep
 
   Scenario Outline: AnindaHavaleTestStep
+    #Testin düzgün ve sağlıklı çalışabilmesi için config.properties dosyasında bulunan
+      # userName ve password değerlerine geçerli bilgilerinizi giriniz
     Given "hepsiburada.com" adresine giris yap
     And "Türkiye'nin En Büyük Online Alışveriş Sitesi Hepsiburada.com" sayfasinda oldugunu dogrula
     Then kitabi sepete ekle

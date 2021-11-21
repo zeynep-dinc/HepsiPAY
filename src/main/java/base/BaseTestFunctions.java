@@ -28,6 +28,8 @@ public abstract class BaseTestFunctions {
     Actions actions=new Actions(driver);
     private WebElement optionValueTextElement;
 
+    protected String getUserName=Driver.readToDriverProperties("userName");
+    protected String getPassword=Driver.readToDriverProperties("password");
 
     public void waitFor(long second){
         try {

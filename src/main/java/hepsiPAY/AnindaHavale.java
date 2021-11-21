@@ -78,15 +78,16 @@ public class AnindaHavale extends BaseTestFunctions {
     private WebElement yontemAdiTextElement;
     private WebElement bankaAdiTextElement;
 
+
     public void girisYap(){
         elementToBeClickable(myAccountButton);
         waitFor(2);
         elementToBeClickable(loginButton);
         waitFor(2);
-        sendKeysFunction(usernameTextBox,"zeynepdinc.23@gmail.com");
+        sendKeysFunction(usernameTextBox,getUserName);
         actionSendKeys(Keys.ENTER);
         waitFor(2);
-        sendKeysFunction(passwordTextBox,"1r1B8kar");
+        sendKeysFunction(passwordTextBox,getPassword);
         actionSendKeys(Keys.ENTER);
         waitFor(2);
     }
